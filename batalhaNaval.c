@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TABULEIRO 10
 #define NAVIO 3
+#define HABILIDADE 5
 
 int main() {
 
@@ -10,7 +12,7 @@ int main() {
     int tabuleiro [TABULEIRO][TABULEIRO] = {0};
    
 
-    // Posicionando o navio na horizontal
+    // Posicionando os navio 
     int linha_h =3, coluna_h = 2;
     for (int i = 0; i < 3; i++){
         tabuleiro[linha_h][coluna_h + i] = NAVIO;
@@ -33,7 +35,35 @@ int main() {
     tabuleiro[linha_d2 - i][coluna_d2 - i] = NAVIO;
         }
     }
-
+    // Habilidade Cruz
+    int origem_cruz_linha = 2, origem_cruz_coluna = 5;
+    for (int i = -2; i <= 2; i ++) {
+        if (origem_cruz_linha + i >= 0 && origem_cruz_linha + i < TABULEIRO) {
+            tabuleiro[origem_cruz_linha][origem_cruz_coluna] = HABILIDADE;
+        }
+        if (origem_cruz_coluna + i >= 0 && origem_cruz_coluna + i < TABULEIRO) {
+            tabuleiro[origem_cruz_linha][origem_cruz_coluna + i] = HABILIDADE;
+        }
+    }
+     // Habilidade Cone
+    int origem_cone_linha = 7, origem_cone_coluna = 5;
+    for (int i = 0; i < 3; i++) {
+        for (int j = -i; j <= i; j++) {
+            if (origem_cone_linha + i < TABULEIRO && origem_cone_coluna + j >= 0 && origem_cone_coluna + j < TABULEIRO) {
+                tabuleiro[origem_cone_linha + i][origem_cone_coluna + j] = HABILIDADE;
+            }
+        }
+    }
+    // Habilidade Octaedro
+    int origem_octaedro_linha = 5, origem_octaedro_coluna = 2;
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2 + abs(i); j <= 2 - abs(i); j++) {
+            if (origem_octaedro_linha + i >= 0 && origem_octaedro_linha + i < TABULEIRO &&
+                origem_octaedro_coluna + j >= 0 && origem_octaedro_coluna + j < TABULEIRO) {
+                tabuleiro[origem_octaedro_linha + i][origem_octaedro_coluna + j] = HABILIDADE;
+            }
+        }
+    }
     // Exibindo o tabuleiro
        printf ("*** Tabuleiro Batalha Naval ***\n\n");
        printf ("  ");       
@@ -48,12 +78,8 @@ int main() {
                 printf (" %d", tabuleiro[i][j]);
                     
             }
-        }
         printf("\n");
     }
 
     return 0;
-
-
-}
 }
